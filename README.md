@@ -51,70 +51,31 @@ src/main/java/com/jungleattack/client/
 classDiagram
     direction TB
 
-    class Runnable {
-        <<interface>>
-    }
-    class JFrame
-    class JPanel
-    class MouseAdapter
-
-    class ClientConstants {
-        <<final>>
-        +DEFAULT_HOST$ String
-        +SERVER_PORT$ int
-        +ZONE_WIDTH$ int
-        +ZONE_HEIGHT$ int
-        +IMAGE_FILES$ List
-    }
-    class Position {
-        -double x
-        -double y
-        +distanceTo(Position other) double
-        +moveTowards(Position target, double distance) void
-    }
-    class Images {
-        -images$ Map
-        +loadAll()$ void
-        +get(String fileName)$ BufferedImage
-    }
-
-    class MessageType {
-        <<enumeration>>
-        CREATE_MATCH
-        JOIN_MATCH
-        SELECT_ANIMAL
-        MOVE_ANIMALS
-        ATTACK
-        VIEW_ZONE
-        MATCH_CREATED
-        MATCH_JOINED
-        ANIMAL_SELECTION
-        GAME_STARTED
-        ZONE_UPDATE
-        GAME_OVER
-        ERROR
-    }
-    class Message {
-        -MessageType type
-        -JsonObject payload
-        +put(String key, Object value) Message
-        +toJson() String
-        +fromJson(String line)$ Message
-    }
-
-    class ServerConnection {
-        -Socket socket
-        -BufferedReader in
-        -PrintWriter out
-        +start() void
-        +run() void
-        +send(Message message) void
-        +close() void
-    }
-
     class ModelObserver {
         <<interface>>
         +modelChanged() void
+    }
+    class GameModel {
+        -ScreenState screen
+        -Map~Integer, ClientAnimal~ animals
+        -List~ClientItem~ items
+        -Set~Integer~ selectedIds
+        +addObserver(ModelObserver o) void
+        -notifyObservers() void
+        +applyZoneUpdate(Message m) void
+        +moveAll(double seconds) void
+        +findAnimalAt(double x, double y) ClientAnimal
+    }
+    class ClientAnimal {
+        -int id
+        -Position position
+        -int energy
+        -List~Position~ route
+        +moveStep(double seconds) void
+    }
+    class ClientItem {
+        -Position position
+        -String imageFile
     }
     class ScreenState {
         <<enumeration>>
@@ -122,106 +83,47 @@ classDiagram
         SELECTING
         PLAYING
     }
-    class Species {
-        <<enumeration>>
-        JAGUAR
-        SLOTH
-        HOWLER_MONKEY
-        TAPIR
-        TOUCAN
-        RED_EYED_FROG
-        COATI
-        +getDisplayName() String
-        +getImageFile() String
-    }
-    class ClientAnimal {
-        -int id
-        -Species species
-        -Position position
-        -int energy
-        -boolean mine
-        -boolean bot
-        -double speed
-        -List route
-        +moveStep(double seconds) void
-    }
-    class ClientItem {
-        -int id
-        -Position position
-        -String imageFile
-    }
-    class GameModel {
-        -ScreenState screen
-        -Map animals
-        -List items
-        -Set selectedIds
-        -List observers
-        +addObserver(ModelObserver o) void
-        -notifyObservers() void
-        +startGame(Message m) void
-        +applyZoneUpdate(Message m) void
-        +moveAll(double seconds) void
-        +findAnimalAt(double x, double y) ClientAnimal
-        +selectOnly(int id) void
-        +selectInside(double x1, double y1, double x2, double y2) void
-        +clearSelection() void
-        +reset() void
-    }
 
     class ClientController {
-        -GameModel model
-        -ServerConnection connection
-        +connect(String host) void
         +createMatch(String nickname) void
         +joinMatch(String nickname, String code) void
         +selectSpecies(Species s) void
         +moveSelectedTo(double x, double y) void
         +attack(int targetId) void
         +viewZone(int zoneId) void
-        +onMessage(Message m) void
-        +onDisconnected() void
         +handleMessage(Message m) void
     }
     class MouseController {
-        -GameModel model
-        -ClientController controller
         -Point dragStart
         -Point dragEnd
         +mousePressed(MouseEvent e) void
-        +mouseDragged(MouseEvent e) void
         +mouseReleased(MouseEvent e) void
-        +getDragRectangle() Rectangle
+    }
+    class ServerConnection {
+        +run() void
+        +send(Message m) void
     }
 
     class MainWindow {
         -CardLayout cards
-        +main(String[] args)$ void
         +modelChanged() void
     }
-    class MenuPanel {
-        +modelChanged() void
-    }
-    class SelectionPanel {
-        +modelChanged() void
-    }
+    class MenuPanel
+    class SelectionPanel
     class GamePanel {
         -Timer timer
-        -long lastFrameTime
-        +modelChanged() void
         #paintComponent(Graphics g) void
-        -drawPaths(Graphics2D g) void
-        -drawItem(Graphics2D g, ClientItem item) void
         -drawAnimal(Graphics2D g, ClientAnimal a) void
-        -drawHud(Graphics2D g) void
-        -drawMiniMap(Graphics2D g) void
+        -drawItem(Graphics2D g, ClientItem i) void
     }
-
-    JFrame <|-- MainWindow
-    JPanel <|-- MenuPanel
-    JPanel <|-- SelectionPanel
-    JPanel <|-- GamePanel
-    MouseAdapter <|-- MouseController
-    Runnable <|.. ServerConnection
+    class Images {
+        +loadAll()$ void
+        +get(String fileName)$ BufferedImage
+    }
+    class Message {
+        +toJson() String
+        +fromJson(String line)$ Message
+    }
 
     ModelObserver <|.. MainWindow
     ModelObserver <|.. MenuPanel
@@ -232,28 +134,16 @@ classDiagram
     GameModel *-- ClientAnimal
     GameModel *-- ClientItem
     GameModel --> ScreenState
-    GameModel --> Species
-    ClientAnimal --> Species
-    ClientAnimal --> Position
-    ClientItem --> Position
-    GameModel ..> Message
 
-    Message --> MessageType
-    ServerConnection ..> Message
-    ClientController ..> Message
     ClientController --> GameModel : actualiza
     ClientController --> ServerConnection : envía
     ServerConnection --> ClientController : avisa
-
-    MouseController --> GameModel
+    ServerConnection ..> Message
     MouseController --> ClientController
     GamePanel --> MouseController
     GamePanel --> GameModel : lee
     GamePanel ..> Images
     SelectionPanel ..> Images
-    Images ..> ClientConstants
-    MenuPanel --> ClientController : acciones
-    SelectionPanel --> ClientController : acciones
     MainWindow *-- MenuPanel
     MainWindow *-- SelectionPanel
     MainWindow *-- GamePanel
