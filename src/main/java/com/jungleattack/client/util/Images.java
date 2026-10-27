@@ -48,7 +48,7 @@ public final class Images {
     }
 
     private static int[] sizeOf(String file) {
-        if (file.equals(ClientConstants.BACKGROUND_IMAGE)) {
+        if (ClientConstants.TERRAIN_IMAGES.contains(file)) {
             return new int[] {ClientConstants.ZONE_WIDTH, ClientConstants.ZONE_HEIGHT};
         }
         if (ClientConstants.ITEM_IMAGES.contains(file)) {

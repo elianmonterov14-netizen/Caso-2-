@@ -80,9 +80,9 @@ public class GamePanel extends JPanel implements ModelObserver {
 
         // La zona se dibuja en coordenadas del mapa, recortada a 800 x 600
         Graphics2D map = (Graphics2D) g2.create(0, 0, ClientConstants.ZONE_WIDTH, ClientConstants.ZONE_HEIGHT);
-        BufferedImage grass = Images.get(ClientConstants.BACKGROUND_IMAGE);
-        if (grass != null) {
-            map.drawImage(grass, 0, 0, null);
+        BufferedImage terrain = Images.get(ClientConstants.terrainImageFor(model.getViewedZoneId()));
+        if (terrain != null) {
+            map.drawImage(terrain, 0, 0, null);
         } else {
             map.setColor(ClientConstants.GRASS_COLOR);
             map.fillRect(0, 0, ClientConstants.ZONE_WIDTH, ClientConstants.ZONE_HEIGHT);
