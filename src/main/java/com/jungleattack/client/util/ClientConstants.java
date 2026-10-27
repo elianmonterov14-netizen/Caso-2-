@@ -3,6 +3,7 @@ package com.jungleattack.client.util;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /** Todos los números, colores, textos y nombres de archivo del cliente. */
 public final class ClientConstants {
@@ -112,13 +113,32 @@ public final class ClientConstants {
 
     // Imágenes (SVG, en src/main/resources/images/)
     public static final String IMAGES_FOLDER = "/images/";
+    /** Terreno por defecto: selva, se usa en toda zona sin entrada en ZONE_TERRAIN. */
     public static final String BACKGROUND_IMAGE = "grass.svg";
+    public static final String VOLCANO_IMAGE = "volcan.svg";
+    public static final String LAKE_IMAGE = "lago.svg";
+    public static final String WATERFALL_IMAGE = "catarata.svg";
+    public static final String HOT_SPRINGS_IMAGE = "termales.svg";
+    /** Fondos de zona (tamaño ZONE_WIDTH x ZONE_HEIGHT), tema Parque Nacional Volcán Arenal. */
+    public static final List<String> TERRAIN_IMAGES = List.of(
+            BACKGROUND_IMAGE, VOLCANO_IMAGE, LAKE_IMAGE, WATERFALL_IMAGE, HOT_SPRINGS_IMAGE);
+    /** Qué terreno le toca a cada id de zona (fila * ZONE_COLUMNS + columna); sin entrada = selva. */
+    public static final Map<Integer, String> ZONE_TERRAIN = Map.of(
+            1, VOLCANO_IMAGE,
+            4, LAKE_IMAGE,
+            5, WATERFALL_IMAGE,
+            8, LAKE_IMAGE,
+            9, HOT_SPRINGS_IMAGE);
     public static final List<String> SPECIES_IMAGES = List.of(
             "jaguar.svg", "sloth.svg", "howler_monkey.svg", "tapir.svg",
             "toucan.svg", "red_eyed_frog.svg", "coati.svg");
     public static final List<String> ITEM_IMAGES = List.of("coffee.svg", "flag_red.svg", "flag_blue.svg");
     /** La lista de todos los archivos SVG. */
-    public static final List<String> IMAGE_FILES = joinAll(SPECIES_IMAGES, ITEM_IMAGES, List.of(BACKGROUND_IMAGE));
+    public static final List<String> IMAGE_FILES = joinAll(SPECIES_IMAGES, ITEM_IMAGES, TERRAIN_IMAGES);
+
+    public static String terrainImageFor(int zoneId) {
+        return ZONE_TERRAIN.getOrDefault(zoneId, BACKGROUND_IMAGE);
+    }
 
     // Textos
     public static final String TEXT_CONNECTION_LOST = "Se perdió la conexión con el servidor";
