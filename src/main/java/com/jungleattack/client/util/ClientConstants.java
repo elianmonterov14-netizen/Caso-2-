@@ -136,6 +136,7 @@ public final class ClientConstants {
     /** La lista de todos los archivos SVG. */
     public static final List<String> IMAGE_FILES = joinAll(SPECIES_IMAGES, ITEM_IMAGES, TERRAIN_IMAGES);
 
+    // Qué imagen de fondo pintar para una zona: la de ZONE_TERRAIN, o selva si no está listada.
     public static String terrainImageFor(int zoneId) {
         return ZONE_TERRAIN.getOrDefault(zoneId, BACKGROUND_IMAGE);
     }
@@ -147,6 +148,7 @@ public final class ClientConstants {
     public static final String TEXT_NEED_NICKNAME = "Escribe un nickname.";
     public static final String TEXT_NEED_NICKNAME_AND_CODE = "Escribe tu nickname y el código de la partida.";
 
+    // Junta tres listas de nombres de archivo en una sola (para construir IMAGE_FILES).
     private static List<String> joinAll(List<String> first, List<String> second, List<String> third) {
         List<String> all = new ArrayList<>(first);
         all.addAll(second);

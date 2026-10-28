@@ -10,6 +10,7 @@ import com.jungleattack.client.model.GameModel;
 import com.jungleattack.client.util.ClientConstants;
 
 /** Convierte los eventos del mouse en acciones del controlador. */
+// MVC: Controlador.
 public class MouseController extends MouseAdapter {
 
     private final GameModel model;
@@ -22,6 +23,7 @@ public class MouseController extends MouseAdapter {
         this.controller = controller;
     }
 
+    // Clic izquierdo: empieza un posible arrastre de selección. Clic derecho: mueve o ataca.
     @Override
     public void mousePressed(MouseEvent e) {
         // Clic en el minimapa (a la derecha, en el panel de datos)
@@ -49,6 +51,7 @@ public class MouseController extends MouseAdapter {
         }
     }
 
+    // Mientras se arrastra con el botón izquierdo, va moviendo la esquina del rectángulo.
     @Override
     public void mouseDragged(MouseEvent e) {
         if (dragStart != null) {
@@ -56,6 +59,7 @@ public class MouseController extends MouseAdapter {
         }
     }
 
+    // Al soltar: si casi no se movió el mouse cuenta como clic, si no selecciona lo que quedó dentro del rectángulo.
     @Override
     public void mouseReleased(MouseEvent e) {
         if (dragStart == null || e.getButton() != MouseEvent.BUTTON1) {
@@ -111,6 +115,7 @@ public class MouseController extends MouseAdapter {
         return true;
     }
 
+    // Recorta un punto para que no se salga del área de juego (0..ZONE_WIDTH, 0..ZONE_HEIGHT).
     private Point clamp(Point p) {
         int x = Math.max(0, Math.min(p.x, ClientConstants.ZONE_WIDTH - 1));
         int y = Math.max(0, Math.min(p.y, ClientConstants.ZONE_HEIGHT - 1));

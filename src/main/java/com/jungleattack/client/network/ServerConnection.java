@@ -25,6 +25,7 @@ public class ServerConnection implements Runnable {
     private final ClientController controller;
     private volatile boolean closing;
 
+    // Abre el socket contra el servidor real y prepara lector/escritor de texto UTF-8.
     public ServerConnection(String host, int port, ClientController controller) throws IOException {
         Socket s = new Socket();
         BufferedReader reader;

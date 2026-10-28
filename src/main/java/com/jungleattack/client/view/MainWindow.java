@@ -15,12 +15,14 @@ import com.jungleattack.client.util.ClientConstants;
 import com.jungleattack.client.util.Images;
 
 /** La ventana. Muestra el menú, la selección o el juego según la pantalla del modelo. */
+// Patrón Observer: observador concreto (modelChanged) · MVC: Vista (contenedora de las otras 3 vistas).
 public class MainWindow extends JFrame implements ModelObserver {
 
     private final GameModel model;
     private final CardLayout cards = new CardLayout();
     private final JPanel container = new JPanel(cards);
 
+    // Arma las 3 pantallas dentro de un CardLayout y se registra como observador del modelo.
     public MainWindow(GameModel model, ClientController controller) {
         super(ClientConstants.WINDOW_TITLE);
         this.model = model;
@@ -38,6 +40,7 @@ public class MainWindow extends JFrame implements ModelObserver {
         cards.show(container, ScreenState.MENU.name());
     }
 
+    // Muestra la pantalla que dice el modelo y, si hay un aviso pendiente, lo muestra en un diálogo.
     @Override
     public void modelChanged() {
         cards.show(container, model.getScreen().name());
@@ -49,6 +52,7 @@ public class MainWindow extends JFrame implements ModelObserver {
         }
     }
 
+    // Punto de entrada: carga las imágenes y abre la ventana en el hilo de Swing.
     public static void main(String[] args) {
         Images.loadAll();
         SwingUtilities.invokeLater(() -> {

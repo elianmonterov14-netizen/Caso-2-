@@ -43,10 +43,12 @@ public final class Images {
         }
     }
 
+    // Devuelve la imagen ya cargada (o null si el archivo no existía/no cargó).
     public static BufferedImage get(String fileName) {
         return images.get(fileName);
     }
 
+    // A qué tamaño en píxeles rasterizar cada SVG, según sea fondo de zona, item o animal.
     private static int[] sizeOf(String file) {
         if (ClientConstants.TERRAIN_IMAGES.contains(file)) {
             return new int[] {ClientConstants.ZONE_WIDTH, ClientConstants.ZONE_HEIGHT};

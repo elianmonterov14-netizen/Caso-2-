@@ -13,6 +13,7 @@ import com.jungleattack.client.util.Position;
  * Todo lo que el cliente sabe de la partida. Es el sujeto del Observer.
  * Solo se toca desde el hilo de Swing (EDT), por eso no necesita synchronized.
  */
+// Patrón Observer: sujeto (guarda y notifica observadores) · MVC: Modelo.
 public class GameModel {
 
     /** Un aviso para mostrarle al jugador (error o resumen). La ventana lo muestra con un JOptionPane. */
@@ -38,10 +39,12 @@ public class GameModel {
 
     // ---- Observer ----
 
+    // Patrón Observer: registra una vista para que reciba modelChanged() en cada cambio.
     public void addObserver(ModelObserver o) {
         observers.add(o);
     }
 
+    // Patrón Observer: avisa a todas las vistas registradas que el modelo cambió.
     private void notifyObservers() {
         for (ModelObserver o : new ArrayList<>(observers)) {
             o.modelChanged();
@@ -50,25 +53,30 @@ public class GameModel {
 
     // ---- Pantalla, menú y selección ----
 
+    // Cambia qué pantalla (menú/selección/juego) debe mostrar MainWindow.
     public void setScreen(ScreenState screen) {
         this.screen = screen;
         notifyObservers();
     }
 
+    // Guarda el nickname elegido (no notifica: no hay vista que dependa solo de esto).
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    // Guarda el código de partida que mandó el servidor.
     public void setMatchCode(String code) {
         this.matchCode = code;
         notifyObservers();
     }
 
+    // Guarda el nombre del rival cuando se une a la partida.
     public void setOpponent(String opponent) {
         this.opponent = opponent;
         notifyObservers();
     }
 
+    // ANIMAL_SELECTION: guarda qué especies quedan disponibles y lo que ya escogió cada jugador.
     public void setSpeciesSelection(List<Species> available, Species mine, Species opponent) {
         this.availableSpecies = new ArrayList<>(available);
         this.mySpecies = mine;
@@ -154,6 +162,7 @@ public class GameModel {
         replaceZone(newAnimals, newItems, m.getInt("viewedZoneId"), m.getIntList("myZones"));
     }
 
+    // Actualiza las estadísticas del jugador que llegan en cada ZONE_UPDATE.
     private void setStats(int damage, int cups, int botsKilled, int seconds) {
         this.myDamage = damage;
         this.myCups = cups;
@@ -207,6 +216,7 @@ public class GameModel {
         return best;
     }
 
+    // Deja un solo animal seleccionado (clic simple sobre un animal mío).
     public void selectOnly(int id) {
         selectedIds.clear();
         selectedIds.add(id);
@@ -230,6 +240,7 @@ public class GameModel {
         notifyObservers();
     }
 
+    // Vacía la selección actual (clic en vacío, o se pierde la selección al cambiar de zona).
     public void clearSelection() {
         selectedIds.clear();
         notifyObservers();
@@ -237,10 +248,12 @@ public class GameModel {
 
     // ---- Zona que se está viendo (id = fila * 4 + columna, igual que el servidor) ----
 
+    // Coordenada X (en el mapa completo) donde empieza la zona que se ve, para desplazar el dibujo.
     public double getZoneMinX() {
         return (viewedZoneId % ClientConstants.ZONE_COLUMNS) * ClientConstants.ZONE_WIDTH;
     }
 
+    // Coordenada Y (en el mapa completo) donde empieza la zona que se ve, para desplazar el dibujo.
     public double getZoneMinY() {
         return (viewedZoneId / ClientConstants.ZONE_COLUMNS) * ClientConstants.ZONE_HEIGHT;
     }
@@ -266,23 +279,42 @@ public class GameModel {
 
     // ---- Getters ----
 
+    // Getter: pantalla actual (menú, selección o jugando).
     public ScreenState getScreen() { return screen; }
+    // Getter: nickname del jugador local.
     public String getNickname() { return nickname; }
+    // Getter: código de la partida actual.
     public String getMatchCode() { return matchCode; }
+    // Getter: nombre del rival.
     public String getOpponent() { return opponent; }
+    // Getter: especies que todavía se pueden escoger.
     public List<Species> getAvailableSpecies() { return availableSpecies; }
+    // Getter: especie que escogió el jugador local.
     public Species getMySpecies() { return mySpecies; }
+    // Getter: especie que escogió el rival.
     public Species getOpponentSpecies() { return opponentSpecies; }
+    // Getter: líneas de todos los caminos del mapa.
     public List<double[]> getPaths() { return paths; }
+    // Getter: todos los animales de la zona que se ve.
     public Collection<ClientAnimal> getAnimals() { return animals.values(); }
+    // Getter: un animal por id, o null si no está en la zona que se ve.
     public ClientAnimal getAnimal(int id) { return animals.get(id); }
+    // Getter: items (cafés/banderas) de la zona que se ve.
     public List<ClientItem> getItems() { return items; }
+    // Getter: id de la zona que se está viendo ahora.
     public int getViewedZoneId() { return viewedZoneId; }
+    // Getter: ids de las zonas donde el jugador tiene animales vivos (lo que deja ver el minimapa).
     public List<Integer> getMyZones() { return myZones; }
+    // Getter: daño acumulado del pack del jugador.
     public int getMyDamage() { return myDamage; }
+    // Getter: cafés tomados por el jugador.
     public int getMyCups() { return myCups; }
+    // Getter: bots eliminados por el jugador.
     public int getMyBotsKilled() { return myBotsKilled; }
+    // Getter: segundos transcurridos de la partida.
     public int getSeconds() { return seconds; }
+    // Getter: últimos eventos para el panel de datos.
     public List<String> getEvents() { return events; }
+    // Getter: ids de los animales seleccionados actualmente.
     public Set<Integer> getSelectedIds() { return selectedIds; }
 }
