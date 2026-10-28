@@ -17,11 +17,13 @@ import com.jungleattack.client.protocol.MessageType;
 import com.jungleattack.client.util.ClientConstants;
 
 /** El puente entre la red, el modelo y lo que hace el jugador. */
+// MVC: Controlador (traduce acciones del jugador en mensajes, y mensajes del servidor en cambios al Modelo).
 public class ClientController {
 
     private final GameModel model;
     private ServerConnection connection;
 
+    // Recibe el modelo que va a actualizar; la conexión se crea después, al conectar.
     public ClientController(GameModel model) {
         this.model = model;
     }
@@ -47,16 +49,19 @@ public class ClientController {
         }
     }
 
+    // Pide al servidor crear una partida nueva.
     public void createMatch(String nickname) {
         model.setNickname(nickname);
         send(new Message(MessageType.CREATE_MATCH).put("nickname", nickname));
     }
 
+    // Pide al servidor unirse a una partida existente por código.
     public void joinMatch(String nickname, String code) {
         model.setNickname(nickname);
         send(new Message(MessageType.JOIN_MATCH).put("nickname", nickname).put("code", code));
     }
 
+    // Manda la especie que escogió el jugador en la pantalla de selección.
     public void selectSpecies(Species species) {
         send(new Message(MessageType.SELECT_ANIMAL).put("species", species.name()));
     }
@@ -82,16 +87,19 @@ public class ClientController {
                 .put("targetId", targetId));
     }
 
+    // Pide cambiar la zona que se ve (clic en una zona propia del minimapa).
     public void viewZone(int zoneId) {
         send(new Message(MessageType.VIEW_ZONE).put("zoneId", zoneId));
     }
 
+    // Manda el mensaje si hay conexión; si no hay, no hace nada (no debería pasar en la UI normal).
     private void send(Message message) {
         if (connection != null) {
             connection.send(message);
         }
     }
 
+    // Cierra y olvida la conexión anterior, si había una (p. ej. antes de reconectar).
     private void closeConnection() {
         if (connection != null) {
             connection.close();
@@ -106,6 +114,7 @@ public class ClientController {
         SwingUtilities.invokeLater(() -> handleMessage(m));
     }
 
+    // Se llama desde el hilo de red cuando se cae la conexión: limpia el modelo y avisa al jugador.
     public void onDisconnected() {
         SwingUtilities.invokeLater(() -> {
             connection = null;
@@ -114,6 +123,7 @@ public class ClientController {
         });
     }
 
+    // Según el tipo de mensaje, actualiza el modelo correspondiente (ya en el hilo de Swing).
     public void handleMessage(Message m) {
         try {
             switch (m.getType()) {
@@ -154,6 +164,7 @@ public class ClientController {
 
     // ---- Ayudantes para leer mensajes ----
 
+    // Lee una lista de nombres de especie del mensaje y las convierte a Species.
     private List<Species> readSpeciesList(Message m, String key) {
         List<Species> list = new ArrayList<>();
         if (m.has(key)) {
@@ -176,6 +187,7 @@ public class ClientController {
         return Species.valueOf(e.getAsString());
     }
 
+    // Nombre en español de una especie dado su nombre de enum (para el resumen final).
     private String speciesName(String name) {
         if (name == null || name.isEmpty()) {
             return "sin especie";

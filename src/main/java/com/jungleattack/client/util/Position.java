@@ -10,6 +10,7 @@ public class Position {
     private double x;
     private double y;
 
+    // Crea un punto con las coordenadas dadas.
     public Position(double x, double y) {
         this.x = x;
         this.y = y;
@@ -21,18 +22,22 @@ public class Position {
         this.y = other.y;
     }
 
+    // Getter: coordenada X.
     public double getX() {
         return x;
     }
 
+    // Getter: coordenada Y.
     public double getY() {
         return y;
     }
 
+    // Setter: cambia la coordenada X (se usa al moverse por la ruta).
     public void setX(double x) {
         this.x = x;
     }
 
+    // Setter: cambia la coordenada Y (se usa al moverse por la ruta).
     public void setY(double y) {
         this.y = y;
     }
@@ -61,6 +66,7 @@ public class Position {
         y = y + (target.y - y) * fraction;
     }
 
+    // Texto de depuración: "(x, y)".
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";

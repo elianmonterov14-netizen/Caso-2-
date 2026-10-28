@@ -6,6 +6,7 @@ import java.util.List;
 import com.jungleattack.client.util.Position;
 
 /** Un animal tal como lo conoce el cliente. */
+// MVC: Modelo (dato de la partida; GamePanel solo lo lee para dibujar).
 public class ClientAnimal {
 
     private final int id;
@@ -17,6 +18,7 @@ public class ClientAnimal {
     private final double speed;
     private final List<Position> route;
 
+    // Copia la ruta recibida para que nadie de afuera pueda modificarla luego.
     public ClientAnimal(int id, Species species, Position position, int energy,
                         boolean mine, boolean bot, double speed, List<Position> route) {
         this.id = id;
@@ -54,12 +56,20 @@ public class ClientAnimal {
         }
     }
 
+    // Getter: id único del animal.
     public int getId() { return id; }
+    // Getter: especie (define imagen y nombre a mostrar).
     public Species getSpecies() { return species; }
+    // Getter: posición actual en el mapa.
     public Position getPosition() { return position; }
+    // Getter: energía actual (muere al llegar a 0).
     public int getEnergy() { return energy; }
+    // Getter: si es del jugador local.
     public boolean isMine() { return mine; }
+    // Getter: si es un animal bot.
     public boolean isBot() { return bot; }
+    // Getter: velocidad en píxeles por segundo.
     public double getSpeed() { return speed; }
+    // Getter: ruta pendiente (puntos que le faltan por recorrer).
     public List<Position> getRoute() { return route; }
 }

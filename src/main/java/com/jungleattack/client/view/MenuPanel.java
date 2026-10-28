@@ -19,6 +19,7 @@ import com.jungleattack.client.model.ScreenState;
 import com.jungleattack.client.util.ClientConstants;
 
 /** El menú: servidor, nickname y código, más los botones "Crear partida" y "Unirse". */
+// Patrón Observer: observador concreto (modelChanged) · MVC: Vista.
 public class MenuPanel extends JPanel implements ModelObserver {
 
     private final GameModel model;
@@ -30,6 +31,7 @@ public class MenuPanel extends JPanel implements ModelObserver {
     private final JButton joinButton = new JButton("Unirse");
     private final JLabel statusLabel = new JLabel(" ", SwingConstants.CENTER);
 
+    // Arma los campos y botones, conecta sus eventos y se registra como observador del modelo.
     public MenuPanel(GameModel model, ClientController controller) {
         this.model = model;
         this.controller = controller;
@@ -41,6 +43,7 @@ public class MenuPanel extends JPanel implements ModelObserver {
         model.addObserver(this);
     }
 
+    // Arma el layout de grilla con el título, los 3 campos, los botones y la etiqueta de estado.
     private void buildLayout() {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -72,6 +75,7 @@ public class MenuPanel extends JPanel implements ModelObserver {
         add(statusLabel, c);
     }
 
+    // Agrega una fila "etiqueta + campo de texto" a la grilla.
     private void addRow(int row, String label, JTextField field, GridBagConstraints c) {
         c.gridx = 0;
         c.gridy = row;
@@ -80,6 +84,7 @@ public class MenuPanel extends JPanel implements ModelObserver {
         add(field, c);
     }
 
+    // Botón "Crear partida": valida el nickname, conecta y pide crear la partida.
     private void create() {
         String nickname = nicknameField.getText().trim();
         if (nickname.isEmpty()) {
@@ -90,6 +95,7 @@ public class MenuPanel extends JPanel implements ModelObserver {
         controller.createMatch(nickname);
     }
 
+    // Botón "Unirse": valida nickname y código, conecta y pide unirse a la partida.
     private void join() {
         String nickname = nicknameField.getText().trim();
         String code = codeField.getText().trim();
@@ -101,6 +107,7 @@ public class MenuPanel extends JPanel implements ModelObserver {
         controller.joinMatch(nickname, code);
     }
 
+    // Si ya se creó/unió la partida pero se sigue en el menú, muestra "esperando..." y deshabilita los campos.
     @Override
     public void modelChanged() {
         boolean waiting = model.getMatchCode() != null && model.getScreen() == ScreenState.MENU;

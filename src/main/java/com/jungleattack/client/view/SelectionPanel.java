@@ -24,12 +24,14 @@ import com.jungleattack.client.util.ClientConstants;
 import com.jungleattack.client.util.Images;
 
 /** La selección: 7 botones, uno por especie. Las que ya no están disponibles salen deshabilitadas. */
+// Patrón Observer: observador concreto (modelChanged) · MVC: Vista.
 public class SelectionPanel extends JPanel implements ModelObserver {
 
     private final GameModel model;
     private final Map<Species, JButton> buttons = new EnumMap<>(Species.class);
     private final JLabel statusLabel = new JLabel(" ", SwingConstants.CENTER);
 
+    // Arma el título, la grilla de 7 botones (uno por especie) y se registra como observador.
     public SelectionPanel(GameModel model, ClientController controller) {
         this.model = model;
         setPreferredSize(new Dimension(ClientConstants.PANEL_WIDTH, ClientConstants.ZONE_HEIGHT));
@@ -56,6 +58,7 @@ public class SelectionPanel extends JPanel implements ModelObserver {
         modelChanged();
     }
 
+    // Crea el botón de una especie con su ícono y lo conecta para mandar selectSpecies al hacer clic.
     private JButton createButton(Species species, ClientController controller) {
         JButton button = new JButton(species.getDisplayName());
         BufferedImage image = Images.get(species.getImageFile());
@@ -78,6 +81,7 @@ public class SelectionPanel extends JPanel implements ModelObserver {
         statusLabel.setText(buildStatus());
     }
 
+    // Arma el texto "Tú: ... | Rival: ..." con lo que ya escogió cada jugador.
     private String buildStatus() {
         String rival = model.getOpponent() == null ? "Rival" : model.getOpponent();
         String mine = model.getMySpecies() == null ? "todavía no escoges" : model.getMySpecies().getDisplayName();

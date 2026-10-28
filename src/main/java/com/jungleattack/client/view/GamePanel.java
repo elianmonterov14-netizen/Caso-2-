@@ -29,6 +29,7 @@ import com.jungleattack.client.util.Images;
  * La pantalla de juego: a la izquierda la zona que se ve (800 x 600) y a la derecha
  * el panel de datos con el minimapa. No tiene lógica del juego: solo dibuja el modelo.
  */
+// Patrón Observer: observador concreto (modelChanged) · MVC: Vista.
 public class GamePanel extends JPanel implements ModelObserver {
 
     private final GameModel model;
@@ -36,6 +37,7 @@ public class GamePanel extends JPanel implements ModelObserver {
     private final Timer timer;
     private long lastFrameTime;
 
+    // Conecta el mouse, arma el timer de animación (no lo arranca todavía) y se registra como observador.
     public GamePanel(GameModel model, ClientController controller) {
         this.model = model;
         this.mouse = new MouseController(model, controller);
@@ -48,6 +50,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         model.addObserver(this);
     }
 
+    // Se llama cada FRAME_MS: calcula cuánto tiempo pasó, mueve los animales y pide repintar.
     private void nextFrame() {
         long now = System.nanoTime();
         double seconds = Math.min((now - lastFrameTime) / ClientConstants.NANOS_PER_SECOND,
@@ -111,6 +114,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         g2.dispose();
     }
 
+    // Dibuja todos los caminos del mapa como líneas gruesas color tierra.
     private void drawPaths(Graphics2D g) {
         g.setColor(ClientConstants.PATH_COLOR);
         g.setStroke(new BasicStroke(ClientConstants.PATH_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -176,6 +180,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         g.setStroke(new BasicStroke(ClientConstants.THIN_STROKE));
     }
 
+    // Dibuja el panel de datos: especie, estadísticas, eventos recientes y el minimapa.
     private void drawHud(Graphics2D g) {
         int x0 = ClientConstants.ZONE_WIDTH;
         int width = ClientConstants.HUD_WIDTH;
