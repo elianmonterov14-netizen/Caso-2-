@@ -61,7 +61,7 @@ Los mensajes que se intercambian con el servidor están en la sección 3 de `Spe
 
 - **Especies:** `jaguar.svg`, `sloth.svg`, `howler_monkey.svg`, `tapir.svg`, `toucan.svg`, `red_eyed_frog.svg`, `coati.svg`
 - **Objetos:** `coffee.svg`, `flag_red.svg`, `flag_blue.svg`
-- **Fondo:** `grass.svg`
+- **Fondo:** `volcan.svg`, `lago.svg`, `catarata.svg` y `termales.svg`
 
 Los caminos se dibujan con líneas, no con imágenes.
 
