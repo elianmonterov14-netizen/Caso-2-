@@ -1,9 +1,6 @@
 package com.jungleattack.client.model;
 
-/**
- * Las 7 especies que se pueden escoger. Todas son animales nativos de Costa Rica.
- * Cada una tiene un nombre para mostrar y el nombre de su imagen.
- */
+// Las 7 especies que se pueden escoger. Todas son animales, cada una tiene un nombre para mostrar y el nombre de su imagen.
 // MVC: Modelo.
 public enum Species {
     JAGUAR("Jaguar", "jaguar.svg"),

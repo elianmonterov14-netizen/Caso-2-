@@ -14,7 +14,7 @@ import com.jungleattack.client.model.ScreenState;
 import com.jungleattack.client.util.ClientConstants;
 import com.jungleattack.client.util.Images;
 
-/** La ventana. Muestra el menú, la selección o el juego según la pantalla del modelo. */
+// La ventana. Muestra el menú, la selección o el juego según la pantalla del modelo. 
 // Patrón Observer: observador concreto (modelChanged) · MVC: Vista (contenedora de las otras 3 vistas).
 public class MainWindow extends JFrame implements ModelObserver {
 

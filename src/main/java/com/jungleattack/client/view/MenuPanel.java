@@ -18,7 +18,7 @@ import com.jungleattack.client.model.ModelObserver;
 import com.jungleattack.client.model.ScreenState;
 import com.jungleattack.client.util.ClientConstants;
 
-/** El menú: servidor, nickname y código, más los botones "Crear partida" y "Unirse". */
+// El menú: servidor, nickname y código, más los botones "Crear partida" y "Unirse". 
 // Patrón Observer: observador concreto (modelChanged) · MVC: Vista.
 public class MenuPanel extends JPanel implements ModelObserver {
 

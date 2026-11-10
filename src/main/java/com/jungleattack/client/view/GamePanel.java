@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         repaint();
     }
 
-    /** El timer solo corre mientras se está jugando. */
+    // El timer solo corre mientras se está jugando. 
     @Override
     public void modelChanged() {
         if (model.getScreen() == ScreenState.PLAYING) {
@@ -74,7 +74,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         repaint();
     }
 
-    /** Orden: fondo, caminos, items, animales, rectángulo de selección y panel de datos. */
+    // Orden: fondo, caminos, items, animales, rectángulo de selección y panel de datos. 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -124,7 +124,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         g.setStroke(new BasicStroke(ClientConstants.THIN_STROKE));
     }
 
-    /** Dibuja cualquier item (café o bandera) con su imageFile, sin preguntar qué es. */
+    // Dibuja cualquier item (café o bandera) con su imageFile, sin preguntar qué es. 
     private void drawItem(Graphics2D g, ClientItem item) {
         int size = ClientConstants.ITEM_SIZE;
         int x = (int) Math.round(item.getPosition().getX() - size / 2.0);
@@ -138,7 +138,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         }
     }
 
-    /** Imagen, barra de energía, borde de color y círculo si está seleccionado. */
+    // Imagen, barra de energía, borde de color y círculo si está seleccionado. 
     private void drawAnimal(Graphics2D g, ClientAnimal a) {
         int size = ClientConstants.ANIMAL_SIZE;
         int x = (int) Math.round(a.getPosition().getX() - size / 2.0);
@@ -224,7 +224,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         drawMiniMap(g);
     }
 
-    /** Recorta el texto con "..." para que no se salga del panel. */
+    // Recorta el texto con "..." para que no se salga del panel. 
     private String fit(String text, FontMetrics metrics, int maxWidth) {
         if (metrics.stringWidth(text) <= maxWidth) {
             return text;
@@ -236,7 +236,7 @@ public class GamePanel extends JPanel implements ModelObserver {
         return shorter + ClientConstants.ELLIPSIS;
     }
 
-    /** 4 x 3 cuadritos: color donde tengo animales, gris en las demás y borde grueso en la zona que veo. */
+    // 4 x 3 cuadritos: color donde tengo animales, gris en las demás y borde grueso en la zona que veo. 
     private void drawMiniMap(Graphics2D g) {
         int cell = ClientConstants.MINIMAP_CELL;
         g.setStroke(new BasicStroke(ClientConstants.THIN_STROKE));

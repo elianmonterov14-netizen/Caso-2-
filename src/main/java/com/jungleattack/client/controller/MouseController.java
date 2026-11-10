@@ -9,7 +9,7 @@ import com.jungleattack.client.model.ClientAnimal;
 import com.jungleattack.client.model.GameModel;
 import com.jungleattack.client.util.ClientConstants;
 
-/** Convierte los eventos del mouse en acciones del controlador. */
+/// Convierte los eventos del mouse en acciones del controlador. 
 // MVC: Controlador.
 public class MouseController extends MouseAdapter {
 
@@ -86,7 +86,7 @@ public class MouseController extends MouseAdapter {
         dragEnd = null;
     }
 
-    /** El rectángulo que GamePanel tiene que dibujar (null si no se está arrastrando). */
+    // El rectángulo que GamePanel tiene que dibujar (null si no se está arrastrando). */
     public Rectangle getDragRectangle() {
         if (dragStart == null || dragEnd == null
                 || dragStart.distance(dragEnd) < ClientConstants.MIN_DRAG) {
@@ -97,7 +97,7 @@ public class MouseController extends MouseAdapter {
         return new Rectangle(x, y, Math.abs(dragStart.x - dragEnd.x), Math.abs(dragStart.y - dragEnd.y));
     }
 
-    /** Si el clic cae en el minimapa, calcula qué zona es. Solo vale si ahí tiene animales vivos. */
+    // Si el clic cae en el minimapa, calcula qué zona es. Solo vale si ahí tiene animales vivos. */
     private boolean clickMiniMap(int x, int y) {
         int relX = x - ClientConstants.MINIMAP_X;
         int relY = y - ClientConstants.MINIMAP_Y;

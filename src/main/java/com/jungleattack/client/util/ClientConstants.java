@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** Todos los números, colores, textos y nombres de archivo del cliente. */
+// Todos los números, colores, textos y nombres de archivo del cliente. 
 public final class ClientConstants {
 
     private ClientConstants() {
@@ -113,16 +113,16 @@ public final class ClientConstants {
 
     // Imágenes (SVG, en src/main/resources/images/)
     public static final String IMAGES_FOLDER = "/images/";
-    /** Terreno por defecto: selva, se usa en toda zona sin entrada en ZONE_TERRAIN. */
+    // Terreno por defecto: selva, se usa en toda zona sin entrada en ZONE_TERRAIN. 
     public static final String BACKGROUND_IMAGE = "grass.svg";
     public static final String VOLCANO_IMAGE = "volcan.svg";
     public static final String LAKE_IMAGE = "lago.svg";
     public static final String WATERFALL_IMAGE = "catarata.svg";
     public static final String HOT_SPRINGS_IMAGE = "termales.svg";
-    /** Fondos de zona (tamaño ZONE_WIDTH x ZONE_HEIGHT), tema Parque Nacional Volcán Arenal. */
+    // Fondos de zona (tamaño ZONE_WIDTH x ZONE_HEIGHT) 
     public static final List<String> TERRAIN_IMAGES = List.of(
             BACKGROUND_IMAGE, VOLCANO_IMAGE, LAKE_IMAGE, WATERFALL_IMAGE, HOT_SPRINGS_IMAGE);
-    /** Qué terreno le toca a cada id de zona (fila * ZONE_COLUMNS + columna); sin entrada = selva. */
+    // Qué terreno le toca a cada id de zona (fila * ZONE_COLUMNS + columna); sin entrada = selva.
     public static final Map<Integer, String> ZONE_TERRAIN = Map.of(
             1, VOLCANO_IMAGE,
             4, LAKE_IMAGE,

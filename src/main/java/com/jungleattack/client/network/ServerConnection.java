@@ -44,7 +44,7 @@ public class ServerConnection implements Runnable {
         this.controller = controller;
     }
 
-    /** Para los tests: sin socket (StringReader y StringWriter). */
+    // Para los tests: sin socket (StringReader y StringWriter). 
     public ServerConnection(BufferedReader in, PrintWriter out, ClientController controller) {
         this.socket = null;
         this.in = in;
@@ -52,14 +52,14 @@ public class ServerConnection implements Runnable {
         this.controller = controller;
     }
 
-    /** Crea el hilo de red. */
+    // Crea el hilo de red. 
     public void start() {
         Thread thread = new Thread(this, "network");
         thread.setDaemon(true);
         thread.start();
     }
 
-    /** Lee cada línea, la convierte en Message y se la pasa al controlador. */
+    // Lee cada línea, la convierte en Message y se la pasa al controlador.
     @Override
     public void run() {
         try {
@@ -83,13 +83,13 @@ public class ServerConnection implements Runnable {
         }
     }
 
-    /** Manda un mensaje: un JSON por línea. */
+    // Manda un mensaje: un JSON por línea.
     public synchronized void send(Message message) {
         out.print(message.toJson() + "\n");
         out.flush();
     }
 
-    /** Cierra la conexión a propósito (no cuenta como desconexión). */
+    // Cierra la conexión a propósito (no cuenta como desconexión).
     public void close() {
         closing = true;
         if (socket != null) {

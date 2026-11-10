@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.jungleattack.client.util.Position;
 
-/** Un animal tal como lo conoce el cliente. */
+// Un animal tal como lo conoce el cliente. 
 // MVC: Modelo (dato de la partida; GamePanel solo lo lee para dibujar).
 public class ClientAnimal {
 

@@ -2,7 +2,7 @@ package com.jungleattack.client.model;
 
 import com.jungleattack.client.util.Position;
 
-/** Un café o una bandera. */
+// Un café o una bandera. 
 // MVC: Modelo (dato de la partida; GamePanel solo lo lee para dibujar).
 public class ClientItem {
     private final int id;

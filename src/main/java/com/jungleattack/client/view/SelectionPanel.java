@@ -23,7 +23,7 @@ import com.jungleattack.client.model.Species;
 import com.jungleattack.client.util.ClientConstants;
 import com.jungleattack.client.util.Images;
 
-/** La selección: 7 botones, uno por especie. Las que ya no están disponibles salen deshabilitadas. */
+// La selección: 7 botones, uno por especie. Las que ya no están disponibles salen deshabilitadas. 
 // Patrón Observer: observador concreto (modelChanged) · MVC: Vista.
 public class SelectionPanel extends JPanel implements ModelObserver {
 
@@ -72,7 +72,7 @@ public class SelectionPanel extends JPanel implements ModelObserver {
         return button;
     }
 
-    /** Deshabilita las especies que ya no están disponibles y muestra lo que escogió cada jugador. */
+    // Deshabilita las especies que ya no están disponibles y muestra lo que escogió cada jugador. 
     @Override
     public void modelChanged() {
         for (Map.Entry<Species, JButton> entry : buttons.entrySet()) {

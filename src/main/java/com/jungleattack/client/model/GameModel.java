@@ -16,7 +16,7 @@ import com.jungleattack.client.util.Position;
 // Patrón Observer: sujeto (guarda y notifica observadores) · MVC: Modelo.
 public class GameModel {
 
-    /** Un aviso para mostrarle al jugador (error o resumen). La ventana lo muestra con un JOptionPane. */
+    // Un aviso para mostrarle al jugador (error o resumen). La ventana lo muestra con un JOptionPane. 
     public record Notice(String text, boolean error) { }
 
     private final List<ModelObserver> observers = new ArrayList<>();
@@ -84,13 +84,13 @@ public class GameModel {
         notifyObservers();
     }
 
-    /** Deja un aviso para que la ventana lo muestre. */
+    //Deja un aviso para que la ventana lo muestre. 
     public void showNotice(String text, boolean error) {
         this.notice = new Notice(text, error);
         notifyObservers();
     }
 
-    /** Devuelve el aviso pendiente (o null) y lo borra, para mostrarlo una sola vez. */
+    //Devuelve el aviso pendiente (o null) y lo borra, para mostrarlo una sola vez. 
     public Notice takeNotice() {
         Notice n = notice;
         notice = null;
@@ -99,7 +99,7 @@ public class GameModel {
 
     // ---- Mensajes del servidor ----
 
-    /** GAME_STARTED: guarda los caminos y la zona inicial. */
+    //GAME_STARTED: guarda los caminos y la zona inicial. 
     public void startGame(Message m) {
         paths = new ArrayList<>();
         for (JsonElement e : m.getArray("paths")) {
@@ -121,7 +121,7 @@ public class GameModel {
         notifyObservers();
     }
 
-    /** ZONE_UPDATE: reemplaza animales e items y quita de la selección a los que ya no están. */
+    //ZONE_UPDATE: reemplaza animales e items y quita de la selección a los que ya no están. 
     public void applyZoneUpdate(Message m) {
         List<ClientAnimal> newAnimals = new ArrayList<>();
         for (JsonElement e : m.getArray("animals")) {
@@ -170,7 +170,7 @@ public class GameModel {
         this.seconds = seconds;
     }
 
-    /** Agrega un evento al panel. Solo se guardan los últimos MAX_EVENTS. */
+    // Agrega un evento al panel. Solo se guardan los últimos MAX_EVENTS.
     private void addEvent(String event) {
         events.add(event);
         while (events.size() > ClientConstants.MAX_EVENTS) {
@@ -178,7 +178,7 @@ public class GameModel {
         }
     }
 
-    /** Reemplaza animales e items y saca de la selección a los que ya no están. */
+    // Reemplaza animales e items y saca de la selección a los que ya no están.
     private void replaceZone(Collection<ClientAnimal> newAnimals, List<ClientItem> newItems,
                             int zoneId, List<Integer> zonesWithMyAnimals) {
         animals.clear();
@@ -192,7 +192,7 @@ public class GameModel {
         notifyObservers();
     }
 
-    /** Lo llama GamePanel cada 33 ms. No avisa a los observadores: el Timer ya hace repaint(). */
+    // Lo llama GamePanel cada 33 ms. No avisa a los observadores: el Timer ya hace repaint().
     public void moveAll(double seconds) {
         for (ClientAnimal a : animals.values()) {
             a.moveStep(seconds);
@@ -201,7 +201,7 @@ public class GameModel {
 
     // ---- Selección (coordenadas del mapa, no de la pantalla) ----
 
-    /** El animal más cercano al punto, dentro de CLICK_RADIUS. */
+    // El animal más cercano al punto, dentro de CLICK_RADIUS.
     public ClientAnimal findAnimalAt(double x, double y) {
         Position click = new Position(x, y);
         ClientAnimal best = null;
@@ -223,7 +223,7 @@ public class GameModel {
         notifyObservers();
     }
 
-    /** Selecciona todos MIS animales que queden dentro del rectángulo. */
+    // Selecciona todos MIS animales que queden dentro del rectángulo.
     public void selectInside(double x1, double y1, double x2, double y2) {
         double minX = Math.min(x1, x2);
         double maxX = Math.max(x1, x2);
@@ -258,7 +258,7 @@ public class GameModel {
         return (viewedZoneId / ClientConstants.ZONE_COLUMNS) * ClientConstants.ZONE_HEIGHT;
     }
 
-    /** Para volver al menú. No borra el aviso pendiente. */
+    // Para volver al menú. No borra el aviso pendiente.
     public void reset() {
         screen = ScreenState.MENU;
         matchCode = null;

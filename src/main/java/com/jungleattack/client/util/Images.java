@@ -11,7 +11,7 @@ import com.github.weisj.jsvg.SVGDocument;
 import com.github.weisj.jsvg.attributes.ViewBox;
 import com.github.weisj.jsvg.parser.SVGLoader;
 
-/** Carga cada SVG una sola vez al iniciar y lo guarda en un mapa, para no leer el archivo en cada cuadro. */
+// Carga cada SVG una sola vez al iniciar y lo guarda en un mapa, para no leer el archivo en cada cuadro. 
 public final class Images {
 
     private static final Map<String, BufferedImage> images = new HashMap<>();
@@ -19,7 +19,7 @@ public final class Images {
     private Images() {
     }
 
-    /** Al iniciar: lee cada archivo de IMAGE_FILES con JSVG. */
+    // Al iniciar: lee cada archivo de IMAGE_FILES con JSVG. 
     public static void loadAll() {
         SVGLoader loader = new SVGLoader();
         for (String file : ClientConstants.IMAGE_FILES) {

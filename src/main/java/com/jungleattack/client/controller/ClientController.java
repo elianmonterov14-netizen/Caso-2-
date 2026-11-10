@@ -16,7 +16,7 @@ import com.jungleattack.client.protocol.Message;
 import com.jungleattack.client.protocol.MessageType;
 import com.jungleattack.client.util.ClientConstants;
 
-/** El puente entre la red, el modelo y lo que hace el jugador. */
+// El puente entre la red, el modelo y lo que hace el jugador. 
 // MVC: Controlador (traduce acciones del jugador en mensajes, y mensajes del servidor en cambios al Modelo).
 public class ClientController {
 
@@ -28,14 +28,14 @@ public class ClientController {
         this.model = model;
     }
 
-    /** Para los tests del paquete: se le pone una conexión falsa (StringWriter). */
+    // Para los tests del paquete: se le pone una conexión falsa (StringWriter).
     void setConnection(ServerConnection connection) {
         this.connection = connection;
     }
 
     // ---- Acciones del jugador ----
 
-    /** Abre la conexión con el servidor. Si no se puede, avisa y no queda conexión. */
+    // Abre la conexión con el servidor. Si no se puede, avisa y no queda conexión.
     public void connect(String host) {
         closeConnection();
         String address = (host == null || host.isBlank()) ? ClientConstants.DEFAULT_HOST : host.trim();
@@ -66,7 +66,7 @@ public class ClientController {
         send(new Message(MessageType.SELECT_ANIMAL).put("species", species.name()));
     }
 
-    /** Si no hay nada seleccionado, no manda nada. (x, y) son coordenadas del mapa. */
+    // Si no hay nada seleccionado, no manda nada. (x, y) son coordenadas del mapa.
     public void moveSelectedTo(double x, double y) {
         if (model.getSelectedIds().isEmpty()) {
             return;
@@ -77,7 +77,7 @@ public class ClientController {
                 .put("targetY", y));
     }
 
-    /** Si no hay nada seleccionado, no manda nada. */
+    // Si no hay nada seleccionado, no manda nada. */
     public void attack(int targetId) {
         if (model.getSelectedIds().isEmpty()) {
             return;
@@ -109,7 +109,7 @@ public class ClientController {
 
     // ---- Lo que llega del servidor ----
 
-    /** Se llama desde el hilo de red: el modelo solo se cambia desde el hilo de Swing. */
+    // Se llama desde el hilo de red: el modelo solo se cambia desde el hilo de Swing.
     public void onMessage(Message m) {
         SwingUtilities.invokeLater(() -> handleMessage(m));
     }
@@ -175,7 +175,7 @@ public class ClientController {
         return list;
     }
 
-    /** La especie, o null si falta, viene null o viene vacía (todavía no la escogió). */
+    //La especie, o null si falta, viene null o viene vacía (todavía no la escogió). */
     private Species readSpecies(Message m, String key) {
         if (!m.has(key)) {
             return null;
@@ -199,7 +199,7 @@ public class ClientController {
         }
     }
 
-    /** El texto del resumen final (para el JOptionPane). */
+    // El texto del resumen final (para el JOptionPane). */
     String buildSummary(Message m) {
         StringBuilder sb = new StringBuilder();
         sb.append("Ganador: ").append(m.getString("winner")).append('\n');
